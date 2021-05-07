@@ -1,12 +1,10 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\LoginController;
 use App\Http\Controllers\API\LogoutController;
 use App\Http\Controllers\API\Auth\ProductController;
 use App\Http\Controllers\API\Auth\RegisterController;
-use Symfony\Component\HttpKernel\DependencyInjection\RegisterControllerArgumentLocatorsPass;
 
 /*
 |--------------------------------------------------------------------------
