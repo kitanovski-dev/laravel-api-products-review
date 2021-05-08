@@ -27,5 +27,6 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::group(['namespace' => 'API\Auth'], function () {
         Route::get('/products', [ProductController::class, 'index']);
         Route::post('/products', [ProductController::class, 'store']);
+        Route::post('/products/{id}', [ProductController::class, 'destroy']);
     });
 });

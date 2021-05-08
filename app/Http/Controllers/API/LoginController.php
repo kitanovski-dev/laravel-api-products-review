@@ -16,7 +16,7 @@ class LoginController extends BaseController
                 $success['name']    = $user->name;
                 $success['token']   = $user->createToken('MyApp')->accessToken;
 
-                return $this->sendResponse($success, 'User login successfully.');
+                return $this->sendResponse(true, $success, 'User login successfully.');
             } else {
                 return "Email not verified.";
             }

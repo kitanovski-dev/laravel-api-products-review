@@ -36,16 +36,6 @@ class ProductController extends BaseController
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -79,7 +69,7 @@ class ProductController extends BaseController
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show($id)
     {
         return $this->entity()::all();
     }
@@ -90,7 +80,7 @@ class ProductController extends BaseController
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         //
     }
@@ -102,7 +92,7 @@ class ProductController extends BaseController
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, Product $product)
     {
         
     }
@@ -113,16 +103,25 @@ class ProductController extends BaseController
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy($id)
     {
-        //
+        $product = Product::where('id', $id)->first();
+        
+        if(!$this->userAuthorize($product)) {
+            return $this->sendResponse(false, $product->id, "You are not owner of this product.");
+        }
+
+        $product->delete();
+        return $this->sendResponse(true, $product->id, "Product deleted.");
     }
 
     protected function userAuthorize($product)
     {
-        if(Auth::user()->id != $product->user_id)
+        if(auth()->user()->id != $product->user_id)
         {
-            return 'You are not an owner of this product.';
+            return false;
         }
+
+        return true;
     }
 }

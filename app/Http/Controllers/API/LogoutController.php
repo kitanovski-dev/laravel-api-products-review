@@ -23,6 +23,6 @@ class LogoutController extends BaseController
 
         $record->update(['revoked' => true]);
 
-        return $this->sendResponse('loged out', 'BYE, BYE.');
+        return $this->sendResponse(true, $record, 'BYE, BYE.');
     }
 }

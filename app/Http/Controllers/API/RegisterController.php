@@ -33,7 +33,7 @@ class RegisterController extends BaseController
             'token'         =>  $user->createToken('MyApi')->accessToken
         ];
 
-        return $this->sendResponse($success, 'User Registered Successfully.');
+        return $this->sendResponse(true, $success, 'User Registered Successfully.');
     }
 
     protected function validateRequest($data)
