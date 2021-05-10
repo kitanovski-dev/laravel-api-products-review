@@ -4,21 +4,12 @@ namespace App\Http\Controllers\API\Auth;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\ProductResource;
-use App\Http\Resources\ProductCollection;
 use App\Http\Controllers\API\BaseController;
 
 class ProductController extends BaseController
 {
 
-    public function __construct()
-    {
-        $this->middleware('auth:api')->except('index', 'show');
-    }
-
-
-    
     public function entity()
     {
         return Product::class;
@@ -31,7 +22,7 @@ class ProductController extends BaseController
      */
     public function index()
     {
-        $data = ProductCollection::collection(Product::paginate(5));
+        $data = ProductResource::collection(Product::paginate(5));
         return $data;
     }
 
@@ -71,7 +62,12 @@ class ProductController extends BaseController
      */
     public function show($id)
     {
-        return $this->entity()::all();
+        $product = Product::where('id', $id)->first();
+        if(!$this->userAuthorize($product)) {
+            return $this->sendError('Product id: '.$product->id, "You are not owner of this product.");
+        }
+        return $product;
+        
     }
 
     /**
@@ -82,18 +78,15 @@ class ProductController extends BaseController
      */
     public function edit(Request $request, $id)
     {
-        //
-    }
+        $product = Product::where('id', $id)->first();
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Product $product)
-    {
+        if(!$this->userAuthorize($product)) {
+            return $this->sendError($product->id, "You are not owner of this product.");
+        }
+
+        $this->entity()::where('id', $id)->update($request->all());
+
+        return $this->sendResponse('Product id: '.$product->id, "Product edited.");
         
     }
 
@@ -106,13 +99,13 @@ class ProductController extends BaseController
     public function destroy($id)
     {
         $product = Product::where('id', $id)->first();
-        
+
         if(!$this->userAuthorize($product)) {
-            return $this->sendResponse(false, $product->id, "You are not owner of this product.");
+            return $this->sendError($product->id, "You are not owner of this product.");
         }
 
         $product->delete();
-        return $this->sendResponse(true, $product->id, "Product deleted.");
+        return $this->sendResponse(true, 'Product id: '.$product->id, "Product deleted.");
     }
 
     protected function userAuthorize($product)

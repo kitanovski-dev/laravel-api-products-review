@@ -7,10 +7,10 @@ use Illuminate\Http\Request;
 
 class BaseController extends Controller
 {
-    public function sendResponse($success, $result, $message)
+    public function sendResponse($result, $message)
     {
         $response = [
-            'success'   =>  $success,
+            'success'   =>  true,
             'data'      =>  $result,
             'message'   =>  $message
         ];
