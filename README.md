@@ -7,6 +7,23 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+## About This API
+
+Important - Before using this API: Please keep in mind that this API is for learning purposes and this code should be refactored to be used in production. Also, I don't use best coding practices and SOLID principles so please use it only for learning. 
+
+Implemented (or will be implemented) features:
+- User registration
+- User login/logout
+- Logged users:
+    - Can read product
+    - Can list product(s)
+    - Can edit product
+    - Can delete product
+
+
+For authentication, I've used laravel/passport.
+I have used sail for this project. - <a href="https://laravel.com/docs/8.x/sail">Laravel Sail</a>
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
